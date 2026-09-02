@@ -53,7 +53,6 @@ export const portfolioData = {
     {
       institution: "S.E.S Polytechnic Solapur",
       degree: "High School Diploma, Computer Technology",
-      date: "Expected July 2025",
       description: "Studying core CS fundamentals: OOP with C++, data structures, systems programming. Applying knowledge in self-directed Unity and Blender projects."
     }
   ],
@@ -61,7 +60,7 @@ export const portfolioData = {
     {
       id: "project-flappunk",
       title: "FlappPunk",
-      description: "A neon-styled flappy bird clone with cyberpunk aesthetics. Built in Unity for mobile with touch controls, scoring system, and vibrant color block obstacles. Features game loop architecture, physics-based movement, and responsive UI.",
+      description: "A neon-styled endless flapper built in Unity featuring a custom C# State Machine, optimized procedural object pooling, and responsive touch controls playable directly in the browser.",
       tags: ["Unity", "C#", "Mobile", "Game Dev"],
       image: imgFlappunkPlay,
       secondaryImage: imgFlappunkStart,

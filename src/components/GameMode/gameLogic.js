@@ -221,7 +221,7 @@ export const initGame = (container) => {
 
     // ── Welcome Sign ──
     k.add([
-      k.text(`Welcome, ${portfolioData.name}`, { size: 16, font: 'monospace' }),
+      k.text(`Welcome, `, { size: 16, font: 'monospace' }),
       k.pos(60, GROUND_Y - 40),
       k.color(C.accent),
       k.z(5),
@@ -524,7 +524,7 @@ export const initGame = (container) => {
           lines: [
             `★ ${edu.degree}`,
             `  @ ${edu.institution}`,
-            `  ${edu.date}`,
+
             '',
             edu.description,
           ],
