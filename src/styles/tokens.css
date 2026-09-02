@@ -1,0 +1,60 @@
+:root {
+  /* Core Palette — Deep, calm dark theme */
+  --bg-primary: #0d0d14;
+  --bg-secondary: #13131f;
+  --bg-card: #1a1a2e;
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --text-primary: #e8e8f0;
+  --text-secondary: #8888aa;
+  --text-muted: #55556a;
+  
+  /* Accent — Calm teal/mint */
+  --accent: #64ffda;
+  --accent-dim: rgba(100, 255, 218, 0.15);
+  --accent-hover: #4de8c4;
+  
+  /* Secondary accents */
+  --purple: #a78bfa;
+  --amber: #f59e0b;
+  
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-accent: rgba(100, 255, 218, 0.3);
+  
+  /* Typography */
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  
+  /* Border radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 0 20px rgba(100, 255, 218, 0.1);
+  --shadow-glow: 0 0 40px rgba(100, 255, 218, 0.15);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 600ms ease;
+  
+  /* Game palette */
+  --game-sky-top: #0a0a1a;
+  --game-sky-mid: #1a1040;
+  --game-sky-bottom: #2d1b69;
+  --game-ground: #1a2a1a;
+  --game-platform: #2a4a2a;
+  --game-platform-top: #3aff7a;
+}
