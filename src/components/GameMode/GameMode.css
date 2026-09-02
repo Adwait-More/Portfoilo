@@ -1,9 +1,12 @@
 .gm-root {
-  position: relative;
+  position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: #0a0a1a;
+  touch-action: none;
 }
 
 .gm-canvas-container {
