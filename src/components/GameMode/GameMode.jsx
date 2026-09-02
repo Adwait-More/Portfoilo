@@ -18,7 +18,7 @@ const GameMode = () => {
     }
     return () => {
       if (gameRef.current && typeof gameRef.current.quit === 'function') {
-        try { gameRef.current.quit(); } catch (_) {}
+        try { gameRef.current.quit(); } catch (_) { }
       }
       gameRef.current = null;
       // Reset mobile input on unmount
@@ -87,14 +87,6 @@ const GameMode = () => {
           </div>
         </div>
       )}
-
-      <div className="gm-hint">
-        <span>
-          {isTouchDevice
-            ? 'Use the on-screen controls · Walk into glowing zones'
-            : 'WASD / Arrow Keys to move · Space to jump · E to interact'}
-        </span>
-      </div>
     </div>
   );
 };
