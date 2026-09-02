@@ -43,13 +43,20 @@ export const initGame = (container) => {
   k.loadSprite('bg', bgImg);
 
   // ──────────────────────────────────────
-  // CONSTANTS
+  // RESPONSIVE SCALE FACTOR
+  // ──────────────────────────────────────
+  // Base design resolution is 1920px wide. Scale everything proportionally.
+  const S = Math.max(0.45, W / 1920);
+
+  // ──────────────────────────────────────
+  // CONSTANTS (scaled)
   // ──────────────────────────────────────
   const GRAVITY = 1800;
-  const SPEED = 300;
-  const JUMP = 720;
-  const GROUND_Y = H - 60;
-  const PLAYER_SIZE = 160;
+  const SPEED = 300 * S;
+  const JUMP = 720 * S;
+  const GROUND_Y = H - (60 * S);
+  const PLAYER_SIZE = 160 * S;
+  const PLAYER_SCALE = 0.3 * S;
 
   // Colors
   const C = {
@@ -97,7 +104,7 @@ export const initGame = (container) => {
 
     // ── Ground ──
     k.add([
-      k.rect(W * 100, 60),
+      k.rect(W * 100, 60 * S),
       k.pos(-W * 20, GROUND_Y),
       k.color(C.groundCol),
       k.area(),
@@ -112,9 +119,12 @@ export const initGame = (container) => {
     ]);
 
     // ── Platform Builder ──
-    function makePlatform(x, y, w) {
+    function makePlatform(bx, by, bw) {
+      const x = bx * S;
+      const y = GROUND_Y - (GROUND_Y - by) * S;
+      const w = bw * S;
       k.add([
-        k.rect(w, 18),
+        k.rect(w, 18 * S),
         k.pos(x, y),
         k.color(C.platCol),
         k.area(),
@@ -130,11 +140,14 @@ export const initGame = (container) => {
 
     // ── Chest Builder ──
     const chests = [];
-    function makeChest(x, y, id, label) {
+    function makeChest(bx, by, id, label) {
+      const x = bx * S;
+      const y = GROUND_Y - (GROUND_Y - by) * S;
+      const chestScale = 0.1 * S;
       const chest = k.add([
         k.sprite('chest'),
         k.pos(x, y),
-        k.scale(0.1),
+        k.scale(chestScale),
         k.area({ scale: k.vec2(0.8, 0.8) }),
         k.anchor('bot'),
         k.z(10),
@@ -143,19 +156,20 @@ export const initGame = (container) => {
       ]);
 
       // Floating label
+      const lblY = y - 75 * S;
       const lbl = k.add([
-        k.text(label, { size: 13, font: 'monospace' }),
-        k.pos(x + 28, y - 75),
+        k.text(label, { size: Math.max(9, 13 * S), font: 'monospace' }),
+        k.pos(x + 28 * S, lblY),
         k.anchor('center'),
         k.color(C.accent),
         k.z(11),
-        { baseY: y - 75 },
+        { baseY: lblY },
       ]);
 
       // "Press E" prompt (hidden by default)
       const prompt = k.add([
-        k.text('[E] Open', { size: 11, font: 'monospace' }),
-        k.pos(x + 28, y - 55),
+        k.text('[E] Open', { size: Math.max(8, 11 * S), font: 'monospace' }),
+        k.pos(x + 28 * S, y - 55 * S),
         k.anchor('center'),
         k.color(C.muted),
         k.opacity(0),
@@ -165,12 +179,12 @@ export const initGame = (container) => {
       // Glow particles
       for (let i = 0; i < 3; i++) {
         k.add([
-          k.circle(3),
-          k.pos(x + 15 + i * 15, y - 10),
+          k.circle(3 * S),
+          k.pos(x + (15 + i * 15) * S, y - 10 * S),
           k.color(C.accent),
           k.opacity(0.5),
           k.z(9),
-          { phase: i * 2, baseX: x + 15 + i * 15, baseY: y - 10 },
+          { phase: i * 2, baseX: x + (15 + i * 15) * S, baseY: y - 10 * S },
           'glow_particle',
         ]);
       }
@@ -221,14 +235,14 @@ export const initGame = (container) => {
 
     // ── Welcome Sign ──
     k.add([
-      k.text(`Welcome, ${portfolioData.name}`, { size: 16, font: 'monospace' }),
-      k.pos(60, GROUND_Y - 40),
+      k.text(`Welcome, ${portfolioData.name}`, { size: Math.max(10, 16 * S), font: 'monospace' }),
+      k.pos(60 * S, GROUND_Y - 40 * S),
       k.color(C.accent),
       k.z(5),
     ]);
     k.add([
-      k.text('Walk right → Find chests → Press [E] to explore', { size: 11, font: 'monospace' }),
-      k.pos(60, GROUND_Y - 20),
+      k.text('Walk right → Find chests → Press [E] to explore', { size: Math.max(8, 11 * S), font: 'monospace' }),
+      k.pos(60 * S, GROUND_Y - 20 * S),
       k.color(C.muted),
       k.z(5),
     ]);
@@ -238,8 +252,8 @@ export const initGame = (container) => {
     // ──────────────────────────────────────
     const player = k.add([
       k.sprite('character', { frame: 0 }),
-      k.pos(100, GROUND_Y),
-      k.scale(0.3),
+      k.pos(100 * S, GROUND_Y),
+      k.scale(PLAYER_SCALE),
       k.anchor('bot'),
       k.area({ scale: k.vec2(0.4, 0.8), offset: k.vec2(0, 0) }),
       k.body(),
@@ -325,14 +339,14 @@ export const initGame = (container) => {
 
       // Flip character
       if (facingRight) {
-        player.scaleTo(0.3);
+        player.scaleTo(PLAYER_SCALE);
       } else {
-        player.scaleTo(-0.3, 0.3);
+        player.scaleTo(-PLAYER_SCALE, PLAYER_SCALE);
       }
 
       // Respawn on fall
       if (player.pos.y > H + 200) {
-        player.pos = k.vec2(100, GROUND_Y);
+        player.pos = k.vec2(100 * S, GROUND_Y);
       }
 
       // Parallax BG
@@ -386,13 +400,13 @@ export const initGame = (container) => {
       // Moon
       k.drawCircle({
         pos: k.vec2(ox + W * 0.82, H * 0.1),
-        radius: 35,
+        radius: 35 * S,
         color: k.rgb(200, 200, 240),
         opacity: 0.4,
       });
       k.drawCircle({
-        pos: k.vec2(ox + W * 0.82 + 12, H * 0.1 - 6),
-        radius: 30,
+        pos: k.vec2(ox + W * 0.82 + 12 * S, H * 0.1 - 6 * S),
+        radius: 30 * S,
         color: k.rgb(10, 10, 26),
         opacity: 0.9,
       });
@@ -412,11 +426,14 @@ export const initGame = (container) => {
     }
 
     function showPanel(chestId) {
-      const PW = Math.min(680, W * 0.82);
+      const PW = Math.min(680, W * 0.9);
       const PH = Math.min(380, H * 0.7);
       const PX = (W - PW) / 2;
       const PY = H * 0.08;
-      const pad = 28;
+      const pad = 28 * Math.max(0.6, S);
+      const titleSize = Math.max(12, 20 * S);
+      const lineSize = Math.max(9, 13 * S);
+      const hintSize = Math.max(8, 10 * S);
 
       // Bg
       panelObjects.push(k.add([
@@ -444,13 +461,13 @@ export const initGame = (container) => {
 
       // Title
       panelObjects.push(k.add([
-        k.text(content.title, { size: 20, font: 'monospace' }),
+        k.text(content.title, { size: titleSize, font: 'monospace' }),
         k.pos(PX + pad, ly),
         k.color(C.accent),
         k.fixed(),
         k.z(201),
       ]));
-      ly += 32;
+      ly += titleSize + 12;
 
       // Divider
       panelObjects.push(k.add([
@@ -468,18 +485,18 @@ export const initGame = (container) => {
         if (ly > PY + PH - 40) return;
         const isHighlight = line.startsWith('▸') || line.startsWith('★');
         panelObjects.push(k.add([
-          k.text(line, { size: 13, font: 'monospace', width: PW - pad * 2 }),
+          k.text(line, { size: lineSize, font: 'monospace', width: PW - pad * 2 }),
           k.pos(PX + pad, ly),
           k.color(isHighlight ? C.accent : C.white),
           k.fixed(),
           k.z(201),
         ]));
-        ly += line.length > 50 ? 36 : 20;
+        ly += line.length > 50 ? 30 : 18;
       });
 
       // Close hint
       panelObjects.push(k.add([
-        k.text('[E] or [ESC] to close', { size: 10, font: 'monospace' }),
+        k.text('[E] or [ESC] to close', { size: hintSize, font: 'monospace' }),
         k.pos(PX + PW / 2, PY + PH - 14),
         k.anchor('center'),
         k.color(C.muted),
@@ -569,10 +586,10 @@ export const initGame = (container) => {
           a.textContent = item.label;
           a.style.cssText = `
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
+            font-size: ${Math.max(11, 14 * S)}px;
             color: rgb(100, 255, 218);
             text-decoration: none;
-            padding: 10px 20px;
+            padding: ${8 * S}px ${16 * S}px;
             border: 1px solid rgba(100, 255, 218, 0.3);
             border-radius: 8px;
             background: rgba(12, 12, 28, 0.9);
@@ -618,14 +635,14 @@ export const initGame = (container) => {
 
     // ── HUD ──
     k.add([
-      k.text(portfolioData.name, { size: 14, font: 'monospace' }),
+      k.text(portfolioData.name, { size: Math.max(10, 14 * S), font: 'monospace' }),
       k.pos(24, 24),
       k.color(C.accent),
       k.fixed(),
       k.z(300),
     ]);
     k.add([
-      k.text(portfolioData.title, { size: 10, font: 'monospace' }),
+      k.text(portfolioData.title, { size: Math.max(8, 10 * S), font: 'monospace' }),
       k.pos(24, 42),
       k.color(C.muted),
       k.fixed(),
