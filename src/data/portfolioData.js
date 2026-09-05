@@ -9,8 +9,8 @@ import imgPC from '../assets/Screenshot 2026-06-28 012759.png';
 import imgFan from '../assets/Screenshot 2026-07-08 210156.png';
 import imgSculpture from '../assets/Screenshot 2026-07-08 210434.png';
 import imgFlappunkStart from '../assets/Screenshot 2026-07-22 230147.png';
-import imgFlappunkPlay from '../assets/Screenshot 2026-07-22 230157.png';
-import imgAvatar from '../assets/Screenshot 2026-07-29 221901.png';
+import imgFlappunkPlay from '../assets/bird.png';
+import imgAvatar from '../assets/bird.png';
 import imgHero from '../assets/hero.png';
 
 export const portfolioData = {
