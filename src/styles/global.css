@@ -1,5 +1,5 @@
 @import './tokens.css';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Righteous&family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -41,17 +41,17 @@ a:hover { color: var(--accent-hover); }
 button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 img { display: block; max-width: 100%; }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+/* Scrollbar — Retro */
+::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-primary); }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-card);
+  background: var(--retro-orange);
   border-radius: var(--radius-full);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+::-webkit-scrollbar-thumb:hover { background: var(--retro-yellow); }
 
-/* Selection */
+/* Selection — Retro warm */
 ::selection {
-  background: var(--accent-dim);
-  color: var(--accent);
+  background: var(--retro-orange);
+  color: var(--retro-cream);
 }

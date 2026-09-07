@@ -1,23 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { portfolioData } from '../../data/portfolioData';
 import './NormalMode.css';
 
-/* ── Helpers ── */
+/* ══════════════════════════════════════════════
+   RETRO ANIMATIONS
+   Smooth vintage feel — fades, slides, bounces
+   ══════════════════════════════════════════════ */
+
+/* Fade up — classic smooth reveal */
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1, y: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
+  }
 };
 
+/* Slide in from left */
+const slideLeft = {
+  hidden: { opacity: 0, x: -80 },
+  visible: {
+    opacity: 1, x: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+/* Slide in from right */
+const slideRight = {
+  hidden: { opacity: 0, x: 80 },
+  visible: {
+    opacity: 1, x: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+/* Scale pop — arcade coin-insert feel */
+const scalePop = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: {
+    opacity: 1, scale: 1,
+    transition: { type: 'spring', stiffness: 250, damping: 20 }
+  }
+};
+
+/* Glow in — neon flicker */
+const glowIn = {
+  hidden: { opacity: 0, filter: 'blur(8px)' },
+  visible: {
+    opacity: 1, filter: 'blur(0px)',
+    transition: { duration: 0.8, ease: 'easeOut' }
+  }
+};
+
+/* Stagger containers */
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } }
+  visible: { transition: { staggerChildren: 0.1 } }
 };
 
+const staggerFast = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } }
+};
+
+/* ── Section wrapper with scroll trigger ── */
 function Section({ children, className = '', id, ...rest }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
     <motion.section
       ref={ref}
@@ -58,7 +108,7 @@ function Typewriter({ words }) {
   return (
     <span className="nm-typewriter">
       {displayed}
-      <span className="nm-cursor">|</span>
+      <span className="nm-cursor">▌</span>
     </span>
   );
 }
@@ -97,10 +147,9 @@ function SkillTag({ name, delay }) {
   return (
     <motion.span
       className="nm-skill-tag"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: delay * 0.06 }}
+      variants={scalePop}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      transition={{ delay: delay * 0.04 }}
     >
       {name}
     </motion.span>
@@ -114,7 +163,40 @@ function smoothScrollTo(e, targetId) {
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* ── Nav ── */
+/* ── Marquee Banner — Retro Ticker ── */
+function MarqueeBanner() {
+  const items = ['GAME DEV', '★', 'UNITY', '★', 'C#', '★', 'BLENDER', '★', '3D ART', '★', 'PIXEL ART', '★', 'INDIE GAMES', '★', 'RETRO', '★'];
+  return (
+    <div className="nm-marquee">
+      <div className="nm-marquee-inner">
+        {[...items, ...items, ...items].map((item, i) => (
+          item === '★'
+            ? <span key={i} className="nm-marquee-dot">{item}</span>
+            : <span key={i} className="nm-marquee-text">{item}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Section Divider — Retro dots ── */
+function SectionDivider() {
+  return (
+    <div className="nm-divider">
+      <div className="nm-divider-line" />
+      <div className="nm-divider-shape" />
+      <div className="nm-divider-shape" />
+      <div className="nm-divider-line" />
+      <div className="nm-divider-shape" />
+      <div className="nm-divider-shape" />
+      <div className="nm-divider-line" />
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════
+   NAV
+   ══════════════════════════════════════ */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
@@ -135,17 +217,21 @@ function Nav() {
   );
 }
 
-/* ── HERO ── */
+/* ══════════════════════════════════════
+   HERO — Retro display with warm glow
+   ══════════════════════════════════════ */
 function Hero() {
   return (
     <section className="nm-hero" id="home">
-      {/* Floating orbs */}
-      <div className="nm-orb nm-orb-1" />
-      <div className="nm-orb nm-orb-2" />
+      {/* Retro decorative elements */}
+      <div className="nm-shape nm-shape-1" />
+      <div className="nm-shape nm-shape-2" />
+      <div className="nm-shape nm-shape-3" />
+      <div className="nm-shape nm-shape-4" />
 
       <motion.div
         className="nm-hero-content"
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
@@ -153,34 +239,62 @@ function Hero() {
           className="nm-hero-greeting"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
         >
-          &gt; Hello, world. I'm
+          {'>'} HELLO_WORLD // I'M
         </motion.span>
 
-        <h1 className="nm-hero-name">{portfolioData.name}</h1>
+        <motion.h1
+          className="nm-hero-name"
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {portfolioData.name}
+          <span className="nm-hero-name-underline" />
+        </motion.h1>
 
-        <p className="nm-hero-subtitle">
+        <motion.p
+          className="nm-hero-subtitle"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7, duration: 0.6 }}
+        >
           <Typewriter words={portfolioData.subtitles} />
-        </p>
+        </motion.p>
 
-        <p className="nm-hero-bio">
+        <motion.p
+          className="nm-hero-bio"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.7 }}
+        >
           {portfolioData.about[0]}
-        </p>
+        </motion.p>
 
-        <div className="nm-hero-actions">
-          <a href="#projects" className="nm-btn-primary" onClick={(e) => smoothScrollTo(e, 'projects')}>View My Work</a>
+        <motion.div
+          className="nm-hero-actions"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
+        >
+          <a href="#projects" className="nm-btn-primary" onClick={(e) => smoothScrollTo(e, 'projects')}>View My Work ▸</a>
           <a href="#contact" className="nm-btn-ghost" onClick={(e) => smoothScrollTo(e, 'contact')}>Get In Touch</a>
-        </div>
+        </motion.div>
 
-        <div className="nm-hero-socials">
+        <motion.div
+          className="nm-hero-socials"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.3, duration: 0.6 }}
+        >
           <a href={portfolioData.socials.github} target="_blank" rel="noreferrer" className="nm-social-link">
             <GithubIcon /> GitHub
           </a>
           <a href={portfolioData.socials.linkedin} target="_blank" rel="noreferrer" className="nm-social-link">
             <LinkedInIcon /> LinkedIn
           </a>
-        </div>
+        </motion.div>
       </motion.div>
 
       <motion.div
@@ -198,7 +312,7 @@ function Hero() {
         className="nm-scroll-hint"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        transition={{ delay: 2 }}
       >
         <span>scroll</span>
         <div className="nm-scroll-line" />
@@ -207,25 +321,32 @@ function Hero() {
   );
 }
 
-/* ── ABOUT ── */
+/* ══════════════════════════════════════
+   ABOUT — Staggered scroll reveals
+   ══════════════════════════════════════ */
 function About() {
   return (
     <Section className="nm-about-section" id="about">
       <motion.div className="nm-section-header" variants={fadeUp}>
-        <span className="nm-label">01 / About</span>
+        <span className="nm-label">01 // About</span>
         <h2 className="nm-section-title">A bit about me</h2>
       </motion.div>
 
       <div className="nm-about-grid">
         <motion.div className="nm-about-text-col" variants={stagger}>
           {portfolioData.about.map((para, i) => (
-            <motion.p key={i} className="nm-about-para" variants={fadeUp}>{para}</motion.p>
+            <motion.p
+              key={i}
+              className="nm-about-para"
+              variants={i % 2 === 0 ? slideLeft : slideRight}
+            >
+              {para}
+            </motion.p>
           ))}
 
           <motion.div className="nm-education" variants={fadeUp}>
             {portfolioData.education.map((edu, i) => (
               <div key={i} className="nm-edu-card">
-
                 <h4 className="nm-edu-degree">{edu.degree}</h4>
                 <p className="nm-edu-inst">{edu.institution}</p>
               </div>
@@ -235,23 +356,25 @@ function About() {
 
         <motion.div className="nm-skills-col" variants={fadeUp}>
           <h3 className="nm-skills-heading">Skills & Tools</h3>
-          <div className="nm-skills-tags-wrap">
+          <motion.div className="nm-skills-tags-wrap" variants={staggerFast}>
             {portfolioData.skills.map((skill, i) => (
               <SkillTag key={skill.name} name={skill.name} delay={i} />
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </Section>
   );
 }
 
-/* ── PROJECTS ── */
+/* ══════════════════════════════════════
+   PROJECTS — Cards with reveal animations
+   ══════════════════════════════════════ */
 function Projects() {
   return (
     <Section className="nm-projects-section" id="projects">
       <motion.div className="nm-section-header" variants={fadeUp}>
-        <span className="nm-label">02 / Work</span>
+        <span className="nm-label">02 // Work</span>
         <h2 className="nm-section-title">Featured Projects</h2>
       </motion.div>
 
@@ -262,6 +385,7 @@ function Projects() {
           const wrapperProps = isPlayable
             ? { href: project.link, target: '_blank', rel: 'noreferrer', className: 'nm-project-card-link' }
             : {};
+
           return (
             <motion.article
               key={project.id}
@@ -299,30 +423,48 @@ function Projects() {
   );
 }
 
-/* ── CONTACT ── */
+/* ══════════════════════════════════════
+   CONTACT
+   ══════════════════════════════════════ */
 function Contact() {
   return (
     <Section className="nm-contact-section" id="contact">
       <motion.div className="nm-section-header" variants={fadeUp}>
-        <span className="nm-label">03 / Contact</span>
+        <span className="nm-label">03 // Contact</span>
         <h2 className="nm-section-title">Let's connect</h2>
       </motion.div>
 
-      <motion.div className="nm-contact-content" variants={fadeUp}>
-        <p className="nm-contact-desc">
+      <motion.div className="nm-contact-content" variants={stagger}>
+        <motion.p className="nm-contact-desc" variants={glowIn}>
           Whether you want to collaborate on a game project, jam together, or just say hello — my inbox is always open.
-        </p>
-        <a href={`mailto:${portfolioData.email}`} className="nm-btn-primary nm-contact-btn">
+        </motion.p>
+        <motion.a
+          href={`mailto:${portfolioData.email}`}
+          className="nm-btn-primary nm-contact-btn"
+          variants={scalePop}
+        >
           {portfolioData.email}
-        </a>
-        <div className="nm-contact-socials">
-          <a href={portfolioData.socials.github} target="_blank" rel="noreferrer" className="nm-social-pill">
+        </motion.a>
+        <motion.div className="nm-contact-socials" variants={stagger}>
+          <motion.a
+            href={portfolioData.socials.github}
+            target="_blank"
+            rel="noreferrer"
+            className="nm-social-pill"
+            variants={slideLeft}
+          >
             <GithubIcon /> GitHub
-          </a>
-          <a href={portfolioData.socials.linkedin} target="_blank" rel="noreferrer" className="nm-social-pill">
+          </motion.a>
+          <motion.a
+            href={portfolioData.socials.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="nm-social-pill"
+            variants={slideRight}
+          >
             <LinkedInIcon /> LinkedIn
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
       </motion.div>
     </Section>
   );
@@ -353,13 +495,19 @@ function Footer() {
   );
 }
 
-/* ── Main export ── */
+/* ══════════════════════════════════════
+   MAIN EXPORT
+   ══════════════════════════════════════ */
 const NormalMode = () => (
   <div className="nm-root">
     <Nav />
     <Hero />
+    <MarqueeBanner />
+    <SectionDivider />
     <About />
+    <SectionDivider />
     <Projects />
+    <SectionDivider />
     <Contact />
     <Footer />
   </div>
