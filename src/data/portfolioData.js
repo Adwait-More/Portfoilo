@@ -70,7 +70,7 @@ export const portfolioData = {
     {
       id: "project-room",
       title: "Isometric Game Environment",
-      description: "A detailed isometric bedroom scene crafted in Blender — designed as a game-ready environment. Features baked lighting, modular props, and optimized geometry for real-time rendering in game engines.",
+      description: "A detailed isometric bedroom scene crafted in Blender — designed as a game-ready environment.modular props, and optimized geometry for real-time rendering in game engines.",
       tags: ["Blender", "Game Art", "Environment", "Isometric"],
       image: imgRoom,
       accentColor: "#c084fc"
