@@ -556,14 +556,7 @@
   overflow: hidden;
 }
 
-/* Retro badge */
-.nm-edu-card::before {
-  content: '🎓';
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 1.5rem;
-}
+/* Retro badge removed */
 
 .nm-edu-card:hover {
   border-color: var(--retro-orange);

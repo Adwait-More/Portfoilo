@@ -557,9 +557,9 @@ export const initGame = (container) => {
         `;
 
         const contactItems = [
-          { label: `📧  ${d.email}`, href: `mailto:${d.email}` },
-          { label: `🔗  GitHub`, href: d.socials.github },
-          { label: `🔗  LinkedIn`, href: d.socials.linkedin },
+          { label: `${d.email}`, href: `mailto:${d.email}` },
+          { label: `GitHub`, href: d.socials.github },
+          { label: `LinkedIn`, href: d.socials.linkedin },
         ];
         contactItems.forEach(item => {
           const a = document.createElement('a');
