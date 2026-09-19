@@ -401,7 +401,7 @@ function Projects() {
                   {isPlayable && (
                     <div className="nm-project-play-overlay">
                       <span className="nm-play-icon">▶</span>
-                      <span className="nm-play-text">Click to Play</span>
+                      <span className="nm-play-text">Click to Visit</span>
                     </div>
                   )}
                 </div>

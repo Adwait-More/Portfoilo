@@ -12,6 +12,7 @@ import imgFlappunkStart from '../assets/Screenshot 2026-07-22 230147.png';
 import imgFlappunkPlay from '../assets/bird.png';
 import imgAvatar from '../assets/bird.png';
 import imgHero from '../assets/hero.png';
+import imgCombiFile from '../assets/CombiFile.png';
 
 export const portfolioData = {
   name: "Adwait More",
@@ -114,6 +115,15 @@ export const portfolioData = {
       tags: ["Blender", "Game Asset", "Rigging"],
       image: imgSculpture,
       accentColor: "#a78bfa"
+    },
+    {
+      id: "project-combifile",
+      title: "CombiFile",
+      description: "A brutally simple, minimalist GUI application to combine multiple text files into one. It takes your files, merges them, and separates the content using the original filenames.",
+      tags: ["Utility", "GUI", "Tool"],
+      image: imgCombiFile,
+      accentColor: "#3b82f6",
+      link: "https://adwait-more.github.io/CombiFile/"
     }
   ]
 };
